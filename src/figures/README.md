@@ -1,5 +1,6 @@
 ## `figures`
 
-All figures containing data should be stored here, preferably labeled with a descriptive file name that also points to the correct figure, e.g. `Fig1_power_spectrum.py`. 
-
-Figure scripts should not perform any data processing, data generation, or inference whenever possible. This maintains a separation between each layer of the scientific method in a clear and reproducible way. Keeping figure generation separate from other parts of the scientific pipeline allows for simple modification of figures, such as correcting axis labels, without needing to rerun the processing and analysis steps.
+This folder contains all the figurse generated from each of the main scripts.
+The figures themselves are subdivided into folders with the same name as the
+`jupyter` notebook from which they were generated. This allows for quick
+exploration of the results obtained from each of the stages of the analysis.
