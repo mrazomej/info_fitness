@@ -12,12 +12,12 @@ import numpy as np
 Title:
     viz.py
 Last update:
-    2018-10-22
+    2018-12-21
 Author(s):
     Manuel Razo-Mejia
 Purpose:
     This file compiles all of the relevant functions for plotting style
-    related to the channel capacity project.
+    related to the information and fitness project.
 """
 
 # Default RP plotting style
