@@ -258,3 +258,44 @@ def p_opt(C_array, delta=0.17, Ks=0.4, eta_o=0.02, M=1.8, logC=False):
         (C_array[C_array > thresh] + Ks) / C_array[C_array > thresh]))
     
     return popt
+
+def abs_fitness(p_rel, C_array, delta=0.17, 
+                Ks=0.4, eta_o=0.02, M=1.8,
+                mu=1.15, logC=False):
+    '''
+    Returns the absolute fitness according to Dekel and Alon's model.
+    
+    Parameter
+    ---------
+    p_rel : array-like.
+        Relative expression with respect to the wild type expression when
+        fully induced with IPTG.
+    C_array : array-like.
+        Substrate concentration. If logC==True this is defined as log10(C)
+    delta : float.
+        growth benefit per substrate cleaved per enzyme.
+    Ks : float.
+        Monod constant for half maximum growth rate.
+    eta_o : float.
+        Parameter of the cost function
+    M : float.
+        Parameter of the cost function
+    mu : float.
+        Absolute growth rate of reference strain
+    logC : Bool.
+        boolean indicating if the concentration is given in log scale
+    
+    Returns
+    -------
+    fitnes : array-like
+        absolute fitness of strain.
+    '''
+    p_rel = np.array(p_rel)
+    C_array = np.array(C_array)
+    if logC:
+        C_array = 10**C_array
+    # Compute benefit - cost
+    rel_fit = benefit_func(p_rel, C_array, delta, Ks) -\
+              cost_func(p_rel, eta_o, M)
+    
+    return mu * (1 + rel_fit)
