@@ -299,3 +299,75 @@ def abs_fitness(p_rel, C_array, delta=0.17,
               cost_func(p_rel, eta_o, M)
     
     return mu * (1 + rel_fit)
+
+def abs_fitness_opt(c, delta=0.17, Ks=0.4, eta_o=0.02, M=1.8, mu=1.15):
+    '''
+    Computes the absolute fitness when evaluated at the optimal relative 
+    expression level p* for a given input concetration c, according to
+    Dekel and Alon's 2005 fitness landscape.
+    Parameters
+    ----------
+    c : array-like.
+        Substrate concentration. If logC==True this is defined as log10(C)
+    delta : float.
+        growth benefit per substrate cleaved per enzyme.
+    Ks : float.
+        Monod constant for half maximum growth rate.
+    eta_o : float.
+        Parameter of the cost function
+    M : float.
+        Parameter of the cost function
+    mu : float.
+        Absolute growth rate of reference strain
+    
+    Returns
+    -------
+    popt : array-like.
+        The optimal relative expression level for a given input c.
+    '''
+    # Compute optimal expression level
+    popt = p_opt(c, delta, Ks, eta_o, M)
+    
+    # Compute optimal growth rate
+    return abs_fitness(popt, c, delta, Ks, eta_o, M, mu)
+
+def growth_diff_c(p_rel, c, delta=0.17, Ks=0.4, eta_o=0.02, M=1.8,
+                  mu=1.15):
+    '''
+    Returns the difference between the growth rate r(C, m) and the optimal
+    growth rate r_max(C).
+
+    Parameter
+    ---------
+    Parameter
+    ---------
+    p_rel : array-like.
+        Relative expression with respect to the wild type expression when
+        fully induced with IPTG.
+    C_array : array-like.
+        Substrate concentration. If logC==True this is defined as log10(C)
+    delta : float.
+        growth benefit per substrate cleaved per enzyme.
+    Ks : float.
+        Monod constant for half maximum growth rate.
+    eta_o : float.
+        Parameter of the cost function
+    M : float.
+        Parameter of the cost function
+    mu : float.
+        Absolute growth rate of reference strain
+
+    Returns
+    -------
+    growth_diff : array-like.
+        difference between relative growth rate and the maximum 
+        relative growth rate.
+    ''' 
+    # Compute the optimal expression level for each input
+    rc_max = abs_fitness_opt(c, delta, Ks, eta_o, M)
+    
+    # Compute the non-optimal expression levels
+    rcp = abs_fitness(p_rel, c, delta, Ks, eta_o, M, mu)
+    
+    # Return the difference between these two growth rates
+    return rc_max - rcp

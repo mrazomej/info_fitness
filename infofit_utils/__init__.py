@@ -5,6 +5,8 @@
 
 # from . import mcmc
 from . import viz
+from . import model
+from . import ratedist
 
 __author__ = """Manue Razo-Mejia"""
 __email__ = """mrazomej@caltech.edu"""
