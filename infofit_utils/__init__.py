@@ -6,7 +6,7 @@
 # from . import mcmc
 from . import maxent
 from . import model
-from . import ratedist
+from . import infotheory
 from . import viz
 
 __author__ = """Manue Razo-Mejia"""
